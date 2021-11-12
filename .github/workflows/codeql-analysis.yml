@@ -1,68 +1,40 @@
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
-#
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
-#
-# ******** NOTE ********
-# We have attempted to detect the languages in your repository. Please check
-# the `language` matrix defined below to confirm you have the correct set of
-# supported CodeQL languages.
-#
-name: "CodeQL"
+- name: C/C++ Lint Action
+  # You may pin to the exact commit or the version.
+  # uses: shenxianpeng/cpp-linter-action@d5764b0d2d2fe07a219309a19dfb34a349bc6b26
+  uses: shenxianpeng/cpp-linter-action@v1.3.0
+  with:
+    # Set this option to false to disable the use of thread comments as feedback. Defaults to true.
+    thread-comments: # optional, default is true
+    # The style rules to use (defaults to 'llvm'). Set this to 'file' to have clang-format use the closest relative .clang-format file.
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ master ]
-  schedule:
-    - cron: '15 4 * * 2'
+    style: # optional, default is llvm
+    # The file extensions to run the action against. This comma-separated string defaults to 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'.
 
-jobs:
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
+    extensions: # optional, default is c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx
+    # A string of regex-like patterns specifying what checks clang-tidy will use. This defaults to 'boost-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,clang-analyzer-*,cppcoreguidelines-*'. See also clang-tidy docs for more info.
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'cpp' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://git.io/codeql-language-support
+    tidy-checks: # optional, default is boost-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,clang-analyzer-*,cppcoreguidelines-*
+    # The relative path to the repository root directory. The default value '.' is relative to the runner's GITHUB_WORKSPACE environment variable.
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    repo-root: # optional, default is .
+    # The desired version of the clang tools to use. Accepted options are strings which can be 6.0, 7, 8, 9, 10, 11, 12. Defaults to 10.
+    version: # optional, default is 10
+    # 
+    verbosity: # optional, default is 10
+    # Set this option to 'true' to only analyse changes in the event's diff. Defaults to 'false'.
+    lines-changed-only: # optional
+    # Set this option to 'false' to analyse any source files in the repo. Defaults to 'true'.
+    files-changed-only: # optional, default is true
+    # Set this option with string of path(s) to ignore.
+- In the case of multiple paths, you can use a pipe character ('|')
+  to separate the multiple paths. Multiple lines are forbidden as input to this option.
+- This can also have files, but the file's relative path has to be specified
+  as well.
+- There is no need to use './' for each entry; a blank string ('') represents
+  the repo-root path (specified by the `repo-root` input option).
+- Path(s) containing a space should be inside single quotes. - Submodules are automatically ignored. - Prefix a path with a bang (`!`) to make it explicitly not ignored - order of
+  multiple paths does take precedence. The `!` prefix can be applied to
+  submodules if desired.
+- Glob patterns are not supported here. All asterick characters ('*') are literal.
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: ${{ matrix.language }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
-        # queries: ./path/to/local/query, your-org/your-repo/queries@main
-
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
-    # - run: |
-    #   make bootstrap
-    #   make release
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+    ignore: # optional, default is .github
