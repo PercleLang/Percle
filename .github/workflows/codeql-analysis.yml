@@ -1,40 +1,23 @@
-- name: C/C++ Lint Action
-  # You may pin to the exact commit or the version.
-  # uses: shenxianpeng/cpp-linter-action@d5764b0d2d2fe07a219309a19dfb34a349bc6b26
-  uses: shenxianpeng/cpp-linter-action@v1.3.0
+- name: Microsoft C++ Code Analysis Action
+  uses: microsoft/msvc-code-analysis-action@v0.1.0
   with:
-    # Set this option to false to disable the use of thread comments as feedback. Defaults to true.
-    thread-comments: # optional, default is true
-    # The style rules to use (defaults to 'llvm'). Set this to 'file' to have clang-format use the closest relative .clang-format file.
-
-    style: # optional, default is llvm
-    # The file extensions to run the action against. This comma-separated string defaults to 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'.
-
-    extensions: # optional, default is c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx
-    # A string of regex-like patterns specifying what checks clang-tidy will use. This defaults to 'boost-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,clang-analyzer-*,cppcoreguidelines-*'. See also clang-tidy docs for more info.
-
-    tidy-checks: # optional, default is boost-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,clang-analyzer-*,cppcoreguidelines-*
-    # The relative path to the repository root directory. The default value '.' is relative to the runner's GITHUB_WORKSPACE environment variable.
-
-    repo-root: # optional, default is .
-    # The desired version of the clang tools to use. Accepted options are strings which can be 6.0, 7, 8, 9, 10, 11, 12. Defaults to 10.
-    version: # optional, default is 10
-    # 
-    verbosity: # optional, default is 10
-    # Set this option to 'true' to only analyse changes in the event's diff. Defaults to 'false'.
-    lines-changed-only: # optional
-    # Set this option to 'false' to analyse any source files in the repo. Defaults to 'true'.
-    files-changed-only: # optional, default is true
-    # Set this option with string of path(s) to ignore.
-- In the case of multiple paths, you can use a pipe character ('|')
-  to separate the multiple paths. Multiple lines are forbidden as input to this option.
-- This can also have files, but the file's relative path has to be specified
-  as well.
-- There is no need to use './' for each entry; a blank string ('') represents
-  the repo-root path (specified by the `repo-root` input option).
-- Path(s) containing a space should be inside single quotes. - Submodules are automatically ignored. - Prefix a path with a bang (`!`) to make it explicitly not ignored - order of
-  multiple paths does take precedence. The `!` prefix can be applied to
-  submodules if desired.
-- Glob patterns are not supported here. All asterick characters ('*') are literal.
-
-    ignore: # optional, default is .github
+    # The CMake build directory that should already be generated.
+    cmakeBuildDirectory: 
+    # The build Configuration (Release, Debug, etc.) to use. This is required if using a multi-configuration CMake generator.
+    buildConfiguration: # optional
+    # Ruleset file used to determine what checks are run.
+    ruleset: # optional, default is NativeRecommendedRules.ruleset
+    # Identical to setting "ignoredTargetPaths" and "ignoreSystemHeaders" for the given path. This is recommended over either option seperately.
+    ignoredPaths: # optional
+    # Any CMake targets defined inside these paths will be excluded from analysis. This is useful for excluding tests or locally built dependencies. List is ";" seperated, requires complete directory paths and can be absolute or relative to "github.workspace"
+    ignoredTargetPaths: # optional
+    # Any includes contained inside these path will be excluded from analysis. This will only filter existing paths add not add any additional includes to the compiler. This is useful for excluding target includes or other custom includes added to CMake. List is ";" seperated, requires complete directory paths and can be absolute or relative to "github.workspace"
+    ignoredIncludePaths: # optional
+    # Uses /external arguments to ignore warnings from any headers marked as SYSTEM in CMake.
+    ignoreSystemHeaders: # optional, default is true
+    # Optional path to generate the SARIF file to. If not supplied "results.sarif" will be created in the CMake build directory. Path can be absolute or relative to "github.workspace".
+    resultsPath: # optional
+    # Load implicit includes/libs for the given MSVC toolset using Visual Studio Command Prompt. Set to false if already loaded or a custom include path is needed.
+    loadImplicitCompilerEnv: # optional, default is true
+    # Optional parameters to pass to every instance of the compiler.
+    additionalArgs: # optional
