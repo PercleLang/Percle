@@ -1,0 +1,15 @@
+# => for single line commment, like;
+
+# Hi, this is a commented code
+
+### => for multi line commment, like;
+
+###
+    Hello
+    This
+    is
+    a
+    multi-line
+    commented
+    code
+###

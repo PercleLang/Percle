@@ -1,5 +1,5 @@
-#include "../h/msclStringFuncs.h"
-#include "../h/ErrorHandler.h"
+#include "../h/StringFunctions.h"
+#include "../h/Error.h"
 
 #include <iostream>
 
@@ -9,9 +9,9 @@ using std::string;
 
 struct Flags {
 	string path;					              // Path to the percle exeutable that is now running
-	bool debug          = false;				  // If to show debugging info
-	bool help           = false;				  // If to show help message
-	bool version        = false;				  // If to show version message
+	bool debug          = false;				// If to show debugging info
+	bool help           = false;				// If to show help message
+	bool version        = false;				// If to show version message
 	bool runInterpreted = true;		      // If to run the program in the interpreter
 	bool runCompiled    = false;		    // If to run the program compiled
 	bool flagError      = false;			  // If to quit immediately, this is set if there is an unrecognised flag
@@ -49,12 +49,6 @@ int main(int argc, char ** argv) {
 		cout << endl;
 		cout << endl;
 		
-		return 0;
-	}
-  
-  if (flags.version) {
-		cout << "Percle Version: v" << VERSION_X << "." << VERSION_Y << "." << VERSION_Z << endl;
-    
 		return 0;
 	}
 
@@ -106,20 +100,21 @@ int main(int argc, char ** argv) {
           } else if (flag == "e" || flag == "execute") {
             flags.runCompiled = true;
             flags.runInterpreted = false;
-
             after = true;
           } else {
-            cout << "Unknown flag '" + flag + "'" << endl;
+            cout << "unknown flag '" + flag + "'" << endl;
             flags.flagError = true;
           }
         } else {
           flags.inFiles.push_back(arg);
           cmdLineArgs.push_back(arg);
         }
-      } else {
+      }
+      else
+      {
         cmdLineArgs.push_back(arg);
       }
     }
-
+  }
   return flags;
 }
