@@ -31,7 +31,7 @@ int main(int argc, char ** argv) {
     return 0;
   }
 
-  if (flags.help)	{
+  if (flags.help) {
 		cout << "Percle Version: v" << VERSION_X << "." << VERSION_Y << "." << VERSION_Z << endl;
 		cout << "usage: pinecone [options] [source file] [options]" << endl;
 		cout << "options: " << endl;

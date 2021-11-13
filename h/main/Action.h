@@ -4,7 +4,7 @@
 #include "Type.h"
 #include "../h/program/CppProgram.h"
 
-#include "utils/stringDrawing.h"
+#include "../h/utils/stringDraw.h"
 
 #include <functional>
 #include <memory>
@@ -15,9 +15,9 @@
 
 using std::shared_ptr;
 using std::unique_ptr;
-using std::to_string;
 using std::function;
 using std::vector;
+using std::to_string;
 
 class ActionData;
 
@@ -55,7 +55,7 @@ class ActionData {
         }
     	virtual void* execute(void* inLeft, void* inRight) = 0;
     	virtual void addToProg(shared_ptr<ActionData> inLeft, shared_ptr<ActionData> inRight, CppProgram* prog) {
-    		prog -> comment("action '" +getDescription() + "' to cpp code not yet implemented");
+    		prog -> comment("Action '" +getDescription() + "' to cpp code not yet implemented");
     	}
     	void addToProg(CppProgram* prog) {
             addToProg(voidAction, voidAction, prog);
