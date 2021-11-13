@@ -17,4 +17,4 @@ The official list of contributors of PercleLang
 ### Also Thanks For (1)
 
 (W)
-wmww (GitHub)
+- wmww (GitHub)
