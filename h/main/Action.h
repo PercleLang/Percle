@@ -2,7 +2,7 @@
 
 #include "StackFrame.h"
 #include "Type.h"
-#include "CppProgram.h"
+#include "../h/program/CppProgram.h"
 
 #include "utils/stringDrawing.h"
 
