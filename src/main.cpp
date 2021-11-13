@@ -1,4 +1,4 @@
-#include "../h/functionsStringFunctions.h"
+#include "../h/functions/StringFunctions.h"
 #include "../h/error/Error.h"
 
 #include <iostream>
@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
   Flags flags = getFlags(argc, argv);
 
   if (flags.flagError) {
-    cout << "No command found. Use 'pr help' for all help. \n" << endl;
+    cout << "No command found. Use 'pr help' for help. \n" << endl;
 		
     return 0;
   }
@@ -87,7 +87,7 @@ int main(int argc, char ** argv) {
             i++;
           } else if (flag == "bin") {
             if (i + 1 >= argc) {
-              cout << "output file must follow '-bin' flag";
+              cout << "Output file must follow '-bin' flag";
               flags.flagError = true;
             }
 
@@ -101,7 +101,7 @@ int main(int argc, char ** argv) {
             flags.runInterpreted = false;
             after = true;
           } else {
-            cout << "unknown flag '" + flag + "'" << endl;
+            cout << "Unknown flag: '" + flag + "'" << endl;
             flags.flagError = true;
           }
         } else {

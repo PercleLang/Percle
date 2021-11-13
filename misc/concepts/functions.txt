@@ -1,0 +1,17 @@
+# Declare and execute same time
+
+function myFunc () (
+    System.Console:Write('Hello World')
+) and execute
+
+---------------------------------------
+
+# Declare and execute not same time
+
+function myFunc () (
+    System.Console:Write('Hello World')
+)
+
+*some code later*
+
+execute: myfunc()
