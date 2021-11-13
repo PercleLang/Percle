@@ -23,15 +23,4 @@ jobs:
         run: |
           set -x
           sudo apt-get update -q || :
-          sudo apt-get install --no-install-recommends -q -y build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev bison autoconf ruby
-      - uses: k0kubun/action-slack@v2.0.0
-        with:
-          payload: |
-            {
-              "ci": "GitHub Actions",
-              "env": "${{ matrix.os }} / Dependencies need to update",
-              "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-              "commit": "${{ github.sha }}",
-              "branch": "${{ github.ref }}".split('/').reverse()[0]
-            }
         if: ${{ failure() && github.event_name == 'push' }}
