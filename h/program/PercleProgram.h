@@ -17,7 +17,7 @@ using std::to_string;
 using std::vector;
 using std::list;
 
-#include "StringFunctions.h"
+#include "../h/functions/StringFunctions.h"
 #include "Namespace.h"
 #include "StackFrame.h"
 #include "Token.h"
@@ -45,6 +45,7 @@ class PercleProgram {
 	void execute();
 	
 private:
+
 	void cleanUp();
 	
 private:

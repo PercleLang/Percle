@@ -1,5 +1,5 @@
-#include "../h/StringFunctions.h"
-#include "../h/Error.h"
+#include "../h/functionsStringFunctions.h"
+#include "../h/error/Error.h"
 
 #include <iostream>
 
@@ -8,16 +8,16 @@ using std::endl;
 using std::string;
 
 struct Flags {
-	string path;					              // Path to the percle exeutable that is now running
-	bool debug          = false;				// If to show debugging info
-	bool help           = false;				// If to show help message
-	bool version        = false;				// If to show version message
-	bool runInterpreted = true;		      // If to run the program in the interpreter
-	bool runCompiled    = false;		    // If to run the program compiled
-	bool flagError      = false;			  // If to quit immediately, this is set if there is an unrecognised flag
+	bool debug          =   false;
+	bool help           =   false;
+	bool version        =   false;
+	bool runCompiled    =   false;
+	bool runInterpreted =   true;
+	bool flagError      =   false;
 
-	string cppOutFile = "";			        // Output file for transpiled C++ code, empty if flag not set
-	string binOutFile = "";			        // Binary executable output file, empty if flag not set
+	string path;
+	string cppOutFile = "";
+	string binOutFile = "";
 };
 
 Flags getFlags(int argc, char ** argv);
