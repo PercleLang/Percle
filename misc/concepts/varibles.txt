@@ -1,3 +1,16 @@
 var myVar = "My variable"
 
 System.Console:Write(myVar)
+
+---------------------------
+
+var myVar = "My variable" || "My variable2" || "My variable3"
+
+myVar = 2
+myVar = "asda"
+
+-----------------------------------------const----------------
+
+const var myVar = "My unchangeable var"
+
+myVar = 23123 # < Error

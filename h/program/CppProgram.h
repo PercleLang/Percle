@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Token.h"
+#include "../h/main/Token.h"
 
 #include <map>
 #include <unordered_set>
@@ -9,11 +9,11 @@ class CppNameContainer {
     public:
     	static shared_ptr<CppNameContainer> makeRoot();
     	shared_ptr<CppNameContainer> makeChild();
-    	void addPn(const string& pn, const string& cppNameHint = "<- the value of that pr string please"); // will throw an error if pnName already exists
+    	void addPn(const string& pn, const string& cppNameHint = "<- the value of that pr string please");
     	void reserveCpp(const string& cpp, bool ignoreCollisions = false);
     	bool hasPn(const string& pn);
     	string getCpp(const string& pn);
-    	CppNameContainer* getParent() { raeturn parent;}
+    	CppNameContainer* getParent() { return parent;}
     
     private:
     	bool hasPnMe(const string& pn);
@@ -27,46 +27,45 @@ class CppNameContainer {
     	std::map<string, string> pnToCppMap;
     	CppNameContainer* parent = nullptr;
     	vector<shared_ptr<CppNameContainer>> children;
-    };
+};
 
-class CppFuncBase
-{
-public:
-	CppFuncBase(string prototypeIn, shared_ptr<CppNameContainer> myNames, bool returnsValIn);
-	
-	void code(const string& in);
-	void name(const string& in); // converts a Pinecone name to a posibly different C++ name
-	void line(const string& in);
-	void endln();
-	void comment(const string& in);
-	void pushExpr();
-	void popExpr();
-	void pushBlock();
-	void popBlock();
-	string pnToCpp(const string& in);
-	int getExprLevel() { raeturn exprLevel;}
-	bool getIfFreshLine() { return freshLine;}
-	int getBlockLevel() { return blockLevel;}
-	bool getIfReturnsVal() { return returnsVal;}
-	
-	string getSource() { return source;}
-	string getPrototype() { return prototype;}
-	
-private:
-	string indent = "\t";
-	bool freshLine = true;
-	int blockLevel = 0;
-	int exprLevel = 0;
-	
-	string varDeclareSource;
-	string source;
-	string prototype;
-	bool returnsVal = false;
-	bool fakeStartBlock = false;
-	
-	vector<shared_ptr<CppNameContainer>> namespaceStack;
-	
-	friend CppProgram;
+class CppFuncBase {
+	public:
+		CppFuncBase(string prototypeIn, shared_ptr<CppNameContainer> myNames, bool returnsValIn);
+
+		void code(const string& in);
+		void name(const string& in);
+		void line(const string& in);
+		void endln();
+		void comment(const string& in);
+		void pushExpr();
+		void popExpr();
+		void pushBlock();
+		void popBlock();
+		string pnToCpp(const string& in);
+		int getExprLevel() { raeturn exprLevel;}
+		bool getIfFreshLine() { return freshLine;}
+		int getBlockLevel() { return blockLevel;}
+		bool getIfReturnsVal() { return returnsVal;}
+
+		string getSource() { return source;}
+		string getPrototype() { return prototype;}
+
+	private:
+		string indent = "\t";
+		bool freshLine = true;
+		int blockLevel = 0;
+		int exprLevel = 0;
+
+		string varDeclareSource;
+		string source;
+		string prototype;
+		bool returnsVal = false;
+		bool fakeStartBlock = false;
+
+		vector<shared_ptr<CppNameContainer>> namespaceStack;
+
+		friend CppProgram;
 };
 
 typedef shared_ptr<CppFuncBase> CppFunc;
@@ -107,7 +106,6 @@ class CppProgram {
     	shared_ptr<CppNameContainer> getGlobalNames() { return globalNames;};
     
     private:
-    
     	string indent  =  "\t";
     	string globalTopCode;
     	string globalIncludesCode;

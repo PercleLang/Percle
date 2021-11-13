@@ -1,0 +1,22 @@
+------------- while loop --------------
+
+    auto dedects true, id not specified
+      |
+while (
+    # Code
+)
+
+^ Same as
+
+while True (
+    # Code
+)
+
+------------- for loop --------------
+
+Built-in declarition, no need to put 'var'
+    |               Autodedects length if specified array
+    |                   |
+for i = 0 loop i < myArr (
+    # Code
+)
