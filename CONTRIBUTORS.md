@@ -1,6 +1,6 @@
 The official list of contributors of PercleLang
 
-##### (2)
+##### TOTAL (2)
 
 ### Lead Developers (2)
 
