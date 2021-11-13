@@ -52,7 +52,7 @@ int main(int argc, char ** argv) {
 		return 0;
 	}
 
-  Flags getFlags(int argc, char ** argv) {
+  Flags getFlags(int argc, char **argv) {
 	  bool after = false;
 	  Flags flags;
 
@@ -60,8 +60,7 @@ int main(int argc, char ** argv) {
       string arg(argv[i]);
       if (!after)
       {
-        if (arg.size() > 1 && arg[0] == '-')
-        {
+        if (arg.size() > 1 && arg[0] == '-') {
           string flag = arg.substr(1, string::npos);
 
           if (flag == "d" || flag == "debug") {
@@ -77,7 +76,7 @@ int main(int argc, char ** argv) {
             after = true;
           } else if (flag == "cpp") {
             if (i + 1 >= argc) {
-              cout << "output file must follow '-cpp' flag";
+              cout << "Output file must follow '-cpp' flag";
               flags.flagError = true;
             }
 
