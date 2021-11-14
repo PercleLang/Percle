@@ -1,6 +1,6 @@
 # Percle
 
-![logo](https://user-images.githubusercontent.com/77380166/141654795-ab8d1f59-43c7-401a-8eec-611b85b6744a.png)
+<img width= '200px' src= 'misc/logo/logo.png' />
 
 - 💨 Fast
 - ⏹️ Object-Oriented

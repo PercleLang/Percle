@@ -1,0 +1,26 @@
+name: Check Dependencies
+on:
+  push:
+    paths-ignore:
+      - 'doc/**'
+      - '**.md'
+      - '**.rdoc'
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+      - '**.md'
+      - '**.rdoc'
+
+jobs:
+  update-deps:
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, macos-11]
+      fail-fast: true
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check Dependencies
+        run: |
+          set -x
+          gcc || :
+        if: ${{ failure() && github.event_name == 'push' }}
