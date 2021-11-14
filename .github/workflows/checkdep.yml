@@ -19,8 +19,8 @@ jobs:
       fail-fast: true
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install libraries
+      - name: Check Dependencies
         run: |
           set -x
-          sudo apt-get update -q || :
+          gcc || :
         if: ${{ failure() && github.event_name == 'push' }}
