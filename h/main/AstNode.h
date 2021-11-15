@@ -209,10 +209,10 @@ class AstFuncBody: public AstNodeBase {
 				throw PercleError("AstFuncBody made with function input nodes that are not types", INTERNAL_ERROR);
 			}
 
-			node->leftTypeNode=move(leftTypeIn);
-			node->rightTypeNode=move(rightTypeIn);
-			node->returnTypeNode=move(returnTypeIn);
-			node->bodyNode=move(bodyIn);
+			node->leftTypeNode		= move(leftTypeIn);
+			node->rightTypeNode		= move(rightTypeIn);
+			node->returnTypeNode	= move(returnTypeIn);
+			node->bodyNode			= move(bodyIn);
 
 			return AstNode(node);
 		}
@@ -223,11 +223,11 @@ class AstFuncBody: public AstNodeBase {
 			auto out = new AstFuncBody;
 			copyToNode(out, copyCache);
 
-			out->leftTypeNode		= leftTypeNode->makeCopy(copyCache);
-			out->rightTypeNode		= rightTypeNode->makeCopy(copyCache);
-			out->returnTypeNode		= returnTypeNode->makeCopy(copyCache);
-			out->bodyNode			= bodyNode->makeCopy(copyCache);
-			out->typesInputSet		= typesInputSet;
+			out->leftTypeNode	= leftTypeNode->makeCopy(copyCache);
+			out->rightTypeNode	= rightTypeNode->makeCopy(copyCache);
+			out->returnTypeNode	= returnTypeNode->makeCopy(copyCache);
+			out->bodyNode		= bodyNode->makeCopy(copyCache);
+			out->typesInputSet	= typesInputSet;
 
 			return AstNode(out);
 		}
@@ -264,9 +264,7 @@ class AstFuncBody: public AstNodeBase {
 class AstExpression: public AstNodeBase
 {
 public:
-	
-	static unique_ptr<AstExpression> make(AstNode leftInIn, AstNode centerIn, AstNode rightInIn)
-	{
+	static unique_ptr<AstExpression> make(AstNode leftInIn, AstNode centerIn, AstNode rightInIn) {
 		unique_ptr<AstExpression> node(new AstExpression);
 		
 		node->leftIn=move(leftInIn);
@@ -276,10 +274,7 @@ public:
 		return node;
 	}
 	
-	//bool isType() {return leftIn->isType() || rightIn->isType();}
-	
-	AstNode makeCopy(bool copyCache)
-	{
+	AstNode makeCopy(bool copyCache) {
 		auto out=new AstExpression;
 		copyToNode(out, copyCache);
 		out->leftIn=leftIn->makeCopy(copyCache);
@@ -297,49 +292,42 @@ public:
 	AstNode leftIn=nullptr, center=nullptr, rightIn=nullptr;
 };
 
-class AstConstExpression: public AstNodeBase
-{
-public:
-	
-	static unique_ptr<AstConstExpression> make(unique_ptr<AstToken> centerIn, AstNode rightInIn)
-	{
-		unique_ptr<AstConstExpression> node(new AstConstExpression);
+class AstConstExpression: public AstNodeBase {
+	public:
+		static unique_ptr<AstConstExpression> make(unique_ptr<AstToken> centerIn, AstNode rightInIn)
+		{
+			unique_ptr<AstConstExpression> node(new AstConstExpression);
+
+			node->center=move(centerIn);
+			node->rightIn=move(rightInIn);
+			
+			return node;
+		}
 		
-		//node->leftIn=move(leftInIn);
-		node->center=move(centerIn);
-		node->rightIn=move(rightInIn);
+		string getString();
 		
-		return node;
-	}
-	
-	string getString();
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstConstExpression;
-		copyToNode(out, copyCache);
-		out->center=unique_ptr<AstToken>((AstToken*)center->makeCopy(copyCache).release());;
-		out->rightIn=center->makeCopy(copyCache);
-		return AstNode(out);
-	}
-	
-	void resolveConstant();
-	void resolveAction() {action=voidAction;};
-	
-	Token getToken() {return center->getToken();}
-	
-private:
-	
-	//AstNode leftIn=nullptr;
-	unique_ptr<AstToken> center=nullptr;
-	AstNode rightIn=nullptr;
+		AstNode makeCopy(bool copyCache) {
+			auto out=new AstConstExpression;
+			copyToNode(out, copyCache);
+			out->center=unique_ptr<AstToken>((AstToken*)center->makeCopy(copyCache).release());;
+			out->rightIn=center->makeCopy(copyCache);
+			return AstNode(out);
+		}
+		
+		void resolveConstant();
+		void resolveAction() {action=voidAction;};
+		
+		Token getToken() {return center->getToken();}
+		
+	private:
+		unique_ptr<AstToken> center=nullptr;
+		AstNode rightIn=nullptr;
 };
 
 class AstOpWithInput: public AstNodeBase
 {
 public:
-	static unique_ptr<AstOpWithInput> make(vector<AstNode>& leftInIn, Token tokenIn, vector<AstNode>& rightInIn)
-	{
+	static unique_ptr<AstOpWithInput> make(vector<AstNode>& leftInIn, Token tokenIn, vector<AstNode>& rightInIn) {
 		unique_ptr<AstOpWithInput> node(new AstOpWithInput);
 		
 		node->leftIn=move(leftInIn);
@@ -353,17 +341,15 @@ public:
 	
 	string getString();
 	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstOpWithInput;
+	AstNode makeCopy(bool copyCache) {
+		auto out = new AstOpWithInput;
 		copyToNode(out, copyCache);
-		out->token=token;
+		out->token = token;
 		for (int i=0; i<(int)leftIn.size(); i++)
 		{
 			out->leftIn.push_back(leftIn[i]->makeCopy(copyCache));
 		}
-		for (int i=0; i<(int)rightIn.size(); i++)
-		{
+		for (int i = 0; i < (int) rightIn.size(); i++) {
 			out->rightIn.push_back(rightIn[i]->makeCopy(copyCache));
 		}
 		return AstNode(out);
@@ -373,17 +359,14 @@ public:
 	
 	Token getToken() {return token;}
 	
-	Token token=nullptr;
+	Token token = nullptr;
 	vector<AstNode> leftIn, rightIn;
 };
 
 class AstTuple: public AstNodeBase
 {
 public:
-	
-	//	make a new instance of this type of node
-	static unique_ptr<AstTuple> make(vector<AstNode>& in)
-	{
+	static unique_ptr<AstTuple> make(vector<AstNode>& in) {
 		unique_ptr<AstTuple> node(new AstTuple);
 		node->nodes=move(in);
 		return node;
@@ -391,8 +374,7 @@ public:
 	
 	string getString();
 	
-	AstNode makeCopy(bool copyCache)
-	{
+	AstNode makeCopy(bool copyCache) {
 		auto out=new AstTuple;
 		copyToNode(out, copyCache);
 		for (int i=0; i<(int)nodes.size(); i++)
@@ -401,8 +383,6 @@ public:
 		}
 		return AstNode(out);
 	}
-	
-	//void resolveReturnType();
 	
 	void resolveAction();
 	
@@ -413,94 +393,77 @@ private:
 	vector<AstNode> nodes;
 };
 
-class AstType: public AstNodeBase
-{
-public:
-	bool isType() {return true;}
-	
-	void resolveAction()
-	{
-		throw PercleError("AstType::resolveAction called, which it shouldn't have been", INTERNAL_ERROR, getToken());
-	}
+class AstType: public AstNodeBase {
+	public:
+		bool isType() {return true;}
+		
+		void resolveAction() {
+			throw PercleError("AstType::resolveAction called, which it shouldn't have been", INTERNAL_ERROR, getToken());
+		}
 };
 
-class AstTypeType: public AstType
-{
-public:
+class AstTypeType: public AstType {
+	public:
+		static unique_ptr<AstTypeType> make(Type typeIn) {
+			unique_ptr<AstTypeType> node(new AstTypeType);
+			node->returnTypeNotMeta = typeIn;
+			return node;
+		}
+		
+		string getString() {
+			return returnType->getString();
+		}
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out = new AstTypeType;
+			copyToNode(out, copyCache);
+			out->returnType = returnType;
+			return AstNode(out);
+		}
 	
-	static unique_ptr<AstTypeType> make(Type typeIn)
-	{
-		unique_ptr<AstTypeType> node(new AstTypeType);
-		node->returnTypeNotMeta=typeIn;
-		return node;
-	}
-	
-	string getString()
-	{
-		return returnType->getString();
-	}
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstTypeType;
-		copyToNode(out, copyCache);
-		out->returnType=returnType;
-		return AstNode(out);
-	}
-	
-	void resolveReturnType()
-	{
-		returnType=returnTypeNotMeta->getMeta();
-	}
-	
-	void nameHintSet()
-	{
-		if (!nameHint.empty() && returnTypeNotMeta->nameHint.empty())
-			returnTypeNotMeta->nameHint=nameHint;
-	}
-	
-	Token getToken() {return nullptr;}
-	
-private:
-	
-	Type returnTypeNotMeta;
+		void resolveReturnType() {
+			returnType = returnTypeNotMeta->getMeta();
+		}
+		
+		void nameHintSet() {
+			if (!nameHint.empty() && returnTypeNotMeta->nameHint.empty())
+				returnTypeNotMeta->nameHint = nameHint;
+		}
+		
+		Token getToken() {return nullptr;}
+		
+	private:
+		Type returnTypeNotMeta;
 };
 
-class AstVoidType: public AstType
-{
-public:
-	
-	static unique_ptr<AstVoidType> make()
-	{
-		unique_ptr<AstVoidType> node(new AstVoidType);
-		return node;
-	}
-	
-	string getString() {return "{}";}
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstVoidType;
-		copyToNode(out, copyCache);
-		return AstNode(out);
-	}
-	
-	void resolveReturnType()
-	{
-		returnType=Void->getMeta();
-	}
-	
-	Token getToken() {return nullptr;}
-	
-private:
+class AstVoidType: public AstType {
+	public:
+		static unique_ptr<AstVoidType> make() {
+			unique_ptr<AstVoidType> node(new AstVoidType);
+			return node;
+		}
+		
+		string getString() {return "{}";}
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out = new AstVoidType;
+			copyToNode(out, copyCache);
+			return AstNode(out);
+		}
+		
+		void resolveReturnType() {
+			returnType = Void->getMeta();
+		}
+		
+		Token getToken() {return nullptr;}
+		
+	private:
 };
 
-class AstTokenType: public AstType
-{
+class AstTokenType: public AstType {
 public:
 	
-	static unique_ptr<AstTokenType> make(Token tokenIn)
-	{
+	static unique_ptr<AstTokenType> make(Token tokenIn) {
 		unique_ptr<AstTokenType> node(new AstTokenType);
 		node->token=tokenIn;
 		return node;
