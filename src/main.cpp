@@ -76,7 +76,7 @@ int main(int argc, char ** argv) {
             after = true;
           } else if (flag == "cpp") {
             if (i + 1 >= argc) {
-              cout << "Output file must follow '-cpp' flag" << endl;
+              cout << "Output file must follow '-cpp' flag";
               flags.flagError = true;
             }
 
