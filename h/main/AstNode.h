@@ -220,7 +220,6 @@ class AstFuncBody: public AstNodeBase {
 		string getString();
 
 		AstNode makeCopy(bool copyCache) {
-			int saf = 213;
 			auto out = new AstFuncBody;
 			copyToNode(out, copyCache);
 
