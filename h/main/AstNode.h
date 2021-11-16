@@ -105,8 +105,8 @@ protected:
 	Action action 		 = nullptr;
 	Type returnType 	 = nullptr;
 	bool dynamic 		 = false;
-	Namespace ns 		 = nullptr;
 	bool inputHasBeenSet = false;
+	Namespace ns 		 = nullptr;
 };
 
 class AstVoid: public AstNodeBase {
@@ -125,14 +125,13 @@ class AstVoid: public AstNodeBase {
 
 		void resolveReturnType() {returnType=Void;}
 
-		void resolveAction()
-		{
+		void resolveAction() {
 			if (!inLeftType->isVoid() || !inRightType->isVoid())
 			{
 				throw PercleError("AstVoid given non void input", INTERNAL_ERROR, getToken());
 			}
 
-			action=voidAction;
+			action = voidAction;
 		}
 
 		Token getToken() {return nullptr;}
@@ -261,41 +260,39 @@ class AstFuncBody: public AstNodeBase {
 		bool typesInputSet = false;
 };
 
-class AstExpression: public AstNodeBase
-{
-public:
-	static unique_ptr<AstExpression> make(AstNode leftInIn, AstNode centerIn, AstNode rightInIn) {
-		unique_ptr<AstExpression> node(new AstExpression);
+class AstExpression: public AstNodeBase {
+	public:
+		static unique_ptr<AstExpression> make(AstNode leftInIn, AstNode centerIn, AstNode rightInIn) {
+			unique_ptr<AstExpression> node(new AstExpression);
+			
+			node->leftIn=move(leftInIn);
+			node->center=move(centerIn);
+			node->rightIn=move(rightInIn);
+			
+			return node;
+		}
 		
-		node->leftIn=move(leftInIn);
-		node->center=move(centerIn);
-		node->rightIn=move(rightInIn);
+		AstNode makeCopy(bool copyCache) {
+			auto out=new AstExpression;
+			copyToNode(out, copyCache);
+			out->leftIn=leftIn->makeCopy(copyCache);
+			out->center=center->makeCopy(copyCache);
+			out->rightIn=rightIn->makeCopy(copyCache);
+			return AstNode(out);
+		}
 		
-		return node;
-	}
-	
-	AstNode makeCopy(bool copyCache) {
-		auto out=new AstExpression;
-		copyToNode(out, copyCache);
-		out->leftIn=leftIn->makeCopy(copyCache);
-		out->center=center->makeCopy(copyCache);
-		out->rightIn=rightIn->makeCopy(copyCache);
-		return AstNode(out);
-	}
-	
-	string getString();
-	
-	void resolveAction();
-	
-	Token getToken() {return center->getToken();}
-	
-	AstNode leftIn=nullptr, center=nullptr, rightIn=nullptr;
+		string getString();
+		
+		void resolveAction();
+		
+		Token getToken() {return center->getToken();}
+		
+		AstNode leftIn=nullptr, center=nullptr, rightIn=nullptr;
 };
 
 class AstConstExpression: public AstNodeBase {
 	public:
-		static unique_ptr<AstConstExpression> make(unique_ptr<AstToken> centerIn, AstNode rightInIn)
-		{
+		static unique_ptr<AstConstExpression> make(unique_ptr<AstToken> centerIn, AstNode rightInIn) {
 			unique_ptr<AstConstExpression> node(new AstConstExpression);
 
 			node->center=move(centerIn);
@@ -307,7 +304,7 @@ class AstConstExpression: public AstNodeBase {
 		string getString();
 		
 		AstNode makeCopy(bool copyCache) {
-			auto out=new AstConstExpression;
+			auto out = new AstConstExpression;
 			copyToNode(out, copyCache);
 			out->center=unique_ptr<AstToken>((AstToken*)center->makeCopy(copyCache).release());;
 			out->rightIn=center->makeCopy(copyCache);
@@ -352,6 +349,7 @@ public:
 		for (int i = 0; i < (int) rightIn.size(); i++) {
 			out->rightIn.push_back(rightIn[i]->makeCopy(copyCache));
 		}
+
 		return AstNode(out);
 	}
 	
@@ -363,34 +361,31 @@ public:
 	vector<AstNode> leftIn, rightIn;
 };
 
-class AstTuple: public AstNodeBase
-{
-public:
-	static unique_ptr<AstTuple> make(vector<AstNode>& in) {
-		unique_ptr<AstTuple> node(new AstTuple);
-		node->nodes=move(in);
-		return node;
-	}
-	
-	string getString();
-	
-	AstNode makeCopy(bool copyCache) {
-		auto out=new AstTuple;
-		copyToNode(out, copyCache);
-		for (int i=0; i<(int)nodes.size(); i++)
-		{
-			out->nodes.push_back(nodes[i]->makeCopy(copyCache));
+class AstTuple: public AstNodeBase {
+	public:
+		static unique_ptr<AstTuple> make(vector<AstNode>& in) {
+			unique_ptr<AstTuple> node(new AstTuple);
+			node->nodes=move(in);
+			return node;
 		}
-		return AstNode(out);
-	}
-	
-	void resolveAction();
-	
-	Token getToken() {return nodes.empty()?nullptr:nodes[0]->getToken();}
-	
-private:
-	
-	vector<AstNode> nodes;
+		
+		string getString();
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out=new AstTuple;
+			copyToNode(out, copyCache);
+			for (int i = 0; i < (int) nodes.size(); i++) {
+				out->nodes.push_back(nodes[i]->makeCopy(copyCache));
+			}
+			return AstNode(out);
+		}
+		
+		void resolveAction();
+		
+		Token getToken() {return nodes.empty() ? nullptr:nodes[0]->getToken();}
+		
+	private:
+		vector<AstNode> nodes;
 };
 
 class AstType: public AstNodeBase {
@@ -461,138 +456,125 @@ class AstVoidType: public AstType {
 };
 
 class AstTokenType: public AstType {
-public:
-	
-	static unique_ptr<AstTokenType> make(Token tokenIn) {
-		unique_ptr<AstTokenType> node(new AstTokenType);
-		node->token=tokenIn;
-		return node;
-	}
-	
-	string getString();
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstTokenType;
-		copyToNode(out, copyCache);
-		out->token=token;
-		return AstNode(out);
-	}
-	
-	void resolveReturnType();
-	
-	Token getToken() {return token;}
-	
-private:
-	
-	Token token=nullptr;
+	public:
+		static unique_ptr<AstTokenType> make(Token tokenIn) {
+			unique_ptr<AstTokenType> node(new AstTokenType);
+			node->token = tokenIn;
+			return node;
+		}
+		
+		string getString();
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out=new AstTokenType;
+			copyToNode(out, copyCache);
+			out->token=token;
+			return AstNode(out);
+		}
+		
+		void resolveReturnType();
+		
+		Token getToken() {return token;}
+		
+	private:
+		
+		Token token=nullptr;
 };
 
-class AstTupleType: public AstType
-{
-public:
-	
-	struct NamedType
-	{
-		Token name; // can be null
-		unique_ptr<AstType> type;
-	};
-	
-	static unique_ptr<AstTupleType> make(vector<NamedType>& in)
-	{
-		unique_ptr<AstTupleType> node(new AstTupleType);
-		node->subTypes=move(in);
-		return node;
-	}
-	
-	string getString();
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstTupleType;
-		copyToNode(out, copyCache);
-		for (int i=0; i<(int)subTypes.size(); i++)
-		{
-			out->subTypes.push_back({subTypes[i].name, unique_ptr<AstType>((AstType*)subTypes[i].type->makeCopy(copyCache).release())});
+class AstTupleType: public AstType {
+	public:
+		
+		struct NamedType {
+			Token name; // can be null
+			unique_ptr<AstType> type;
+		};
+		
+		static unique_ptr<AstTupleType> make(vector<NamedType>& in) {
+			unique_ptr<AstTupleType> node(new AstTupleType);
+			node->subTypes=move(in);
+			return node;
 		}
-		return AstNode(out);
-	}
+		
+		string getString();
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out = new AstTupleType;
+			copyToNode(out, copyCache);
+			for (int i = 0; i < (int) subTypes.size(); i++) {
+				out->subTypes.push_back({subTypes[i].name, unique_ptr<AstType>((AstType*)subTypes[i].type->makeCopy(copyCache).release())});
+			}
 	
-	void resolveReturnType();
-	
-	Token getToken() {return subTypes.empty()?nullptr:subTypes[0].name;}
-	
-private:
-	
-	vector<NamedType> subTypes;
+			return AstNode(out);
+		}
+		
+		void resolveReturnType();
+		
+		Token getToken() {return subTypes.empty() ? nullptr:subTypes[0].name;}
+		
+	private:
+		vector<NamedType> subTypes;
 };
 
 class AstActionWrapper: public AstNodeBase {
-public:
-	
-	static unique_ptr<AstActionWrapper> make(Action actionIn) {
-		auto out 			 = unique_ptr<AstActionWrapper> (new AstActionWrapper);
-		out->inLeftType 	 = actionIn->getInLeftType();
-		out->inRightType	 = actionIn->getInRightType();
-		out->returnType		 = actionIn->getReturnType();
-		out->action			 = actionIn;
-		out->dynamic		 = true;
-		out->ns 			 = nullptr;
-		out->inputHasBeenSet = true;
-		return out;
-	}
-	
-	string getString() {return "action wrapper node";}
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out = new AstActionWrapper;
-		copyToNode(out, true);
-		return AstNode(out);
-	}
-	
-	void resolveAction()
-	{
-		throw PercleError("AstActionWrapper::resolveAction called, which it shouldn't have been", INTERNAL_ERROR);
-	}
-	
-	Token getToken() {return nullptr;}
+	public:
+		static unique_ptr<AstActionWrapper> make(Action actionIn) {
+			auto out 			 = unique_ptr<AstActionWrapper> (new AstActionWrapper);
+			out->inLeftType 	 = actionIn->getInLeftType();
+			out->inRightType	 = actionIn->getInRightType();
+			out->returnType		 = actionIn->getReturnType();
+			out->action			 = actionIn;
+			out->dynamic		 = true;
+			out->ns 			 = nullptr;
+			out->inputHasBeenSet = true;
+			return out;
+		}
+		
+		string getString() {return "action wrapper node";}
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out = new AstActionWrapper;
+			copyToNode(out, true);
+			return AstNode(out);
+		}
+		
+		void resolveAction() {
+			throw PercleError("AstActionWrapper::resolveAction() called, which it shouldn't have been", INTERNAL_ERROR);
+		}
+		
+		Token getToken() {return nullptr;}
 };
 
 class AstWhatevToActionFactory: public AstNodeBase {
-public:
-	
-	static AstNode make(function<Action(Type left, Type right) > lambda) {
-		auto node=new AstWhatevToActionFactory();
-		node->lambda=lambda;
-		return AstNode(node);
-	}
-	
-	string getString() {return "AstWhatevToActionFactory";}
-	
-	AstNode makeCopy(bool copyCache)
-	{
-		auto out=new AstWhatevToActionFactory;
-		copyToNode(out, copyCache);
-		out->lambda=lambda;
-		return AstNode(out);
-	}
-	
-	void resolveAction() {throw PercleError("AstWhatevToActionFactory::resolveAction called, wich should never happen", INTERNAL_ERROR);}
-	
-	AstNode makeCopyWithSpecificTypes(Type leftInType, Type rightInType)
-	{
-		auto action=lambda(leftInType, rightInType);
-		if (action)
-			return AstActionWrapper::make(action);
-		else
-			return nullptr;
-	}
-	
-	Token getToken() {return nullptr;}
-	
-	bool canBeWhatev() {return true;}
-	
-private:
-	function<Action(Type leftInType, Type rightInType)> lambda;
+	public:
+		static AstNode make(function<Action(Type left, Type right) > lambda) {
+			auto node = new AstWhatevToActionFactory();
+			node->lambda = lambda;
+			return AstNode(node);
+		}
+		
+		string getString() {return "AstWhatevToActionFactory";}
+		
+		AstNode makeCopy(bool copyCache) {
+			auto out = new AstWhatevToActionFactory;
+			copyToNode(out, copyCache);
+			out->lambda = lambda;
+			return AstNode(out);
+		}
+		
+		void resolveAction() {throw PercleError("AstWhatevToActionFactory::resolveAction called, wich should never happen", INTERNAL_ERROR);}
+		
+		AstNode makeCopyWithSpecificTypes(Type leftInType, Type rightInType) {
+			auto action = lambda(leftInType, rightInType);
+			if (action)
+				return AstActionWrapper::make(action);
+			else
+				return nullptr;
+		}
+		
+		Token getToken() {return nullptr;}
+		
+		bool canBeWhatev() {return true;}
+		
+	private:
+		function<Action(Type leftInType, Type rightInType)> lambda;
 };
