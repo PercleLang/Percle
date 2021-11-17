@@ -1,5 +1,5 @@
-#include "../h/functions/StringFunctions.h"
-#include "../h/error/Error.h"
+#include "./h/utils/StringFunctions.h"
+#include "./h/main/Error.h"
 
 #include <iostream>
 

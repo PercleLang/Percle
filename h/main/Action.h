@@ -68,7 +68,7 @@ class ActionData {
     	Type inLeftType;
     	Type inRightType;
     	string description;
-    };
+ };
 
 typedef shared_ptr<ActionData> Action;
 

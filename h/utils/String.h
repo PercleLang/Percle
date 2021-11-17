@@ -11,13 +11,10 @@ namespace str {
 
     inline int getWidth(const string& in);
 
-    // Returns the byte location of the given glyph
     inline int seek(const string& in, int distGlyph, int startPosByte=0);
 
-    // Currently is a straight equals, but in the future could do things such as evaluate strings with different types of newlines to equal
     inline bool subMatches(const string& in, int posBytes, const string& sub);
 
-    // If endGlyph is -1 it takes till the end of the string
     inline string sub(const string& in, int startGlyph, int endGlyph);
 
     inline bool matches(const string& a, const string& b);
@@ -26,22 +23,13 @@ namespace str {
 
     inline bool hasSuffix(const string& in, const string& suffix);
 
-    // Returns the BYTE location (not glyph location), or -1 if pattern doesn't appear
-    // Int searchFor(const string& in, string pattern, int startByte);
-
-    // returns the glyph position of the first occurrence of pattern, or -1 if it doesn't appear
     int getGlyphPosOf(const string& in, string pattern);
 
     string tabsToSpaces(const string& in, int tabWidth=4);
 
     enum StringPadAlignment {ALIGNMENT_LEFT=1, ALIGNMENT_CENTER=0, ALIGNMENT_RIGHT=-1};
 
-    // Alignment: 1 = left, -1 = right, 0 = center
-    // Pad is assumed to be of width 1
     string pad(const string& in, int size, StringPadAlignment alignment=ALIGNMENT_LEFT, string pad=" ", string leftCap="", string rightCap="");
-
-
-    /// Inline implementations
 
     inline void nextGlyph(int& out, const string& in) {
     	do {
@@ -50,10 +38,10 @@ namespace str {
     }
 
     inline int getWidth(const string& in) {
-    	int glyphPos=0;
-    	int bytePos=0;
+    	int glyphPos = 0;
+    	int bytePos  = 0;
     
-    	while (bytePos<(int)in.size()) {
+    	while (bytePos < (int) in.size()) {
     		nextGlyph(bytePos, in);
     		glyphPos++;
     	}
@@ -86,8 +74,8 @@ namespace str {
 
     inline string sub(const string& in, int startGlyph, int endGlyph)
     {
-    	int startByte=seek(in, startGlyph);
-    	int endByte=(endGlyph < 0 ? (int)in.size() : seek(in, endGlyph-startGlyph, startByte));
+    	int startByte = seek(in, startGlyph);
+    	int endByte   = (endGlyph < 0 ? (int) in.size() : seek(in, endGlyph-startGlyph, startByte));
     	return in.substr(startByte, endByte-startByte);
     }
 

@@ -79,8 +79,8 @@ class TypeBase: public std::enable_shared_from_this<TypeBase> {
     	virtual bool isVoid()      { return false; };
     	virtual bool isWhatev()    { return false; };
     
-    	virtual size_t getSize()=0;
-    	virtual PrimitiveType getType()=0;
+    	virtual size_t getSize() = 0;
+    	virtual PrimitiveType getType() = 0;
     
     	bool matches(Type other);
     
@@ -109,7 +109,6 @@ class TupleTypeMaker {
     	Type get(bool isAnonymous);
     
     private:
-    
     	string getUniqueName();
     
     	std::unique_ptr<vector<NamedType>> subTypes;

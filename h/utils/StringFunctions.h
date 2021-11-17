@@ -48,17 +48,17 @@ string replaceSubstring(const string& in, const string& searchFor, const string&
 /*
 	Sets the given array to be the given string sliced up using the given pattern
 		In: The string to slice
-		Pattern: the pattern used to chop up the string, will not be included in output
-		Out: all the substrings will be appended to this
+		Pattern: The pattern used to chop up the string, will not be included in output
+		Out: All the substrings will be appended to this
 */
 
 void sliceStringBy(const string& in, const string& pattern, vector<string>& out);
 
 /*
 	Indents a string
-		In: the string to indent (can be multi line)
-		indent: the string to use as the indent
-		Returns: the string indented
+		In: The String to indent (can be multi line)
+		indent: The string to use as the indent
+		Returns: The string indented
 */
 
 string indentString(const string& in, string indent = "    ", int level = 1);
@@ -76,17 +76,18 @@ string tabsToSpaces(const string& in, int spaceNum = 4);
 
 void tabsToSpaces(vector<string>& in);
 
-//	Returns the original string but padded with the given padding string
-//		In: The string to pad
-//		Size: The size of the output string
-//		Alignment:
-//			1  : Left
-//		   -1  : Right
-//			0  : Center
-//		Pad: The String to use for padding (assumes this string is one char long)
-//		LeftCap: A string to put on the left size of the input (inside the padding) that will not get chopped
-//		RightCap: A string to put on the right size of the input (inside the padding) that will not get chopped
-//		Returns: The padded string, or the chopped string if the input is shorter then the size
+/*	Returns the original string but padded with the given padding string
+		In: The string to pad
+		Size: The size of the output string
+		Alignment:
+			1  : Left
+		   -1  : Right
+			0  : Center
+		Pad: The String to use for padding (assumes this string is one char long)
+		LeftCap: A string to put on the left size of the input (inside the padding) that will not get chopped
+		RightCap: A string to put on the right size of the input (inside the padding) that will not get chopped
+		Returns: The padded string, or the chopped string if the input is shorter then the size
+*/
 
 string padString(const string& in, int size, int alignment=1, string pad = " ", string leftCap = "", string rightCap = "");
 

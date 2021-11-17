@@ -18,7 +18,6 @@ class TokenData {
     		LITERAL,
     		STRING_LITERAL,
     		OPERATOR,
-            FUNCTION,
     		LINE_COMMENT,
     		BLOCK_COMMENT,
     		SCOPE,
@@ -58,7 +57,8 @@ class TokenData {
         }
     
         bool isComment() {
-            return tokenType == LINE_COMMENT || tokenType == BLOCK_COMMENT;
+            return tokenType == LINE_COMMENT ||
+                   tokenType == BLOCK_COMMENT;
         }
     
     	static string typeToString(TokenData::Type in);

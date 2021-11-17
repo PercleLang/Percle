@@ -10,18 +10,14 @@ namespace str {
     inline void nextGlyph(int& out, const string& in);
 
     inline int getWidth(const string& in);
-
     inline int seek(const string& in, int distGlyph, int startPosByte = 0);
 
     inline bool subMatches(const string& in, int posBytes, const string& sub);
-
-    inline string sub(const string& in, int startGlyph, int endGlyph);
-
+    inline bool hasSuffix(const string& in, const string& suffix);
     inline bool matches(const string& a, const string& b);
-
     inline bool hasPrefix(const string& in, const string& prefix);
 
-    inline bool hasSuffix(const string& in, const string& suffix);
+    inline string sub(const string& in, int startGlyph, int endGlyph);
 
     int getGlyphPosOf(const string& in, string pattern);
 
@@ -52,7 +48,7 @@ namespace str {
     inline int seek(const string& in, int distGlyph, int startPosByte) {
     	int i = startPosByte;
     
-    	while (distGlyph > 0)	{
+    	while (distGlyph > 0) {
     		nextGlyph(i, in);
     
     		distGlyph--;
@@ -62,10 +58,10 @@ namespace str {
     }
 
     inline bool subMatches(const string& in, int posBytes, const string& sub) {
-    	if (posBytes<0  || sub.size()+posBytes>in.size())
+    	if (posBytes < 0 || sub.size() + posBytes > in.size())
     		return false;
     
-    	for (int i = 0; i < (int)sub.size(); i++) {
+    	for (int i = 0; i < (int) sub.size(); i++) {
     		if (in[i + posBytes] != sub[i])
     			return false;
     	}
@@ -75,7 +71,7 @@ namespace str {
 
     inline string sub(const string& in, int startGlyph, int endGlyph) {
     	int startByte = seek(in, startGlyph);
-    	int endByte = (endGlyph < 0 ? (int)in.size() : seek(in, endGlyph-startGlyph, startByte));
+    	int endByte = (endGlyph < 0 ? (int)in.size() : seek(in, endGlyph - startGlyph, startByte));
     	return in.substr(startByte, endByte-startByte);
     }
 
@@ -91,7 +87,7 @@ namespace str {
     }
 
     inline bool hasSuffix(const string& in, const string& suffix) {
-    	return subMatches(in, in.size()-suffix.size(), suffix);
+    	return subMatches(in, in.size() - suffix.size(), suffix);
     }
 }
 

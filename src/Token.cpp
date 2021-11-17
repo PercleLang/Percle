@@ -1,6 +1,6 @@
-#include "../h/Token.h"
-#include "../h/functions/StringFunctions.h"
-#include "../h/utils/stringUtils.h"
+#include "./h/main/Token.h"
+#include "./h/utils/StringFunctions.h"
+#include "./h/utils/stringUtils.h"
 
 Token makeToken(string textIn, shared_ptr<SourceFile> fileIn, int lineIn, int charPosIn, TokenData::Type tokenTypeIn, Operator opIn) {
 	if (str::hasPrefix(textIn, "\"") && !str::hasSuffix(textIn, "\""))

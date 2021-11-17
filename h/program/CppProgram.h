@@ -60,6 +60,7 @@ class CppFuncBase {
 		string varDeclareSource;
 		string source;
 		string prototype;
+
 		bool returnsVal = false;
 		bool fakeStartBlock = false;
 
@@ -74,23 +75,24 @@ class CppProgram {
     public:
     	CppProgram();
     
-    	void code(const string& in)		{ activeFunc->code(in);}
-    	void name(const string& in)		{ activeFunc->name(in);}
-    	void line(const string& in)		{ activeFunc->line(in);}
-    	void endln()					{ activeFunc->endln();}
-    	void comment(const string& in)	{ activeFunc->comment(in);}
-    	void pushExpr()					{ activeFunc->pushExpr();}
-    	void popExpr()					{ activeFunc->popExpr();}
-    	void pushBlock()				{ activeFunc->pushBlock();}
-    	void popBlock()					{ activeFunc->popBlock();}
-    	string pnToCpp(const string& in){ return activeFunc->pnToCpp(in);}
-    	int getExprLevel()				{ return activeFunc->getExprLevel();}
-    	int getBlockLevel()				{ return activeFunc->getBlockLevel();}
-    	int getIfReturnsVal()			{ return activeFunc->getIfReturnsVal();}
+    	void code(const string& in)		 { activeFunc->code(in);                 }
+    	void name(const string& in)		 { activeFunc->name(in);                 }
+    	void line(const string& in)		 { activeFunc->line(in);                 }
+    	void endln()					 { activeFunc->endln();                  }
+    	void comment(const string& in)	 { activeFunc->comment(in);              }
+    	void pushExpr()					 { activeFunc->pushExpr();               }
+    	void popExpr()					 { activeFunc->popExpr();                }
+    	void pushBlock()				 { activeFunc->pushBlock();              }
+    	void popBlock()					 { activeFunc->popBlock();               }
+    	int getExprLevel()				 { return activeFunc->getExprLevel();    }
+    	int getBlockLevel()				 { return activeFunc->getBlockLevel();   }
+    	int getIfReturnsVal()			 { return activeFunc->getIfReturnsVal(); }
+    	string prToCpp(const string& in) { return activeFunc->pnToCpp(in);       }
     
     
-    	void setup();
     	string getTypeCode(Type in);
+    	
+        void setup();
     	void declareVar(const string& nameIn, Type typeIn, string initialValue = "");
     	void declareGlobal(const string& nameIn, Type typeIn, string initialValue = "");
     	void addHeadCode(const string& code);
@@ -99,7 +101,7 @@ class CppProgram {
     	void pushFunc(const string& name, const string& cppNameHint, Type leftIn, Type rightIn, Type returnType);
     	void pushFunc(const string& name, Type leftIn, Type rightIn, Type returnType) {pushFunc(name, name, leftIn, rightIn, returnType);}
     	void popFunc();
-    	bool isMain() { return funcStack.size()  =    =  1;}
+    	bool isMain() { return funcStack.size()  ==  1;}
     
     	string getCppCode();
     
@@ -115,6 +117,6 @@ class CppProgram {
     	vector<string> funcStack;
     	std::map<string, CppFunc> funcs;
     	shared_ptr<CppNameContainer> globalNames;
-    };
+ };
 
 void addToProgPnStr(CppProgram * prog);
