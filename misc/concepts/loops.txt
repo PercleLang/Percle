@@ -1,6 +1,6 @@
 ------------- while loop --------------
 
-    auto dedects true, id not specified
+    auto dedects true, if not specified
       |
 while (
     # Code
