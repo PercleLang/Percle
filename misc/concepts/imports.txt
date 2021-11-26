@@ -1,7 +1,7 @@
 ------------- module import --------------
 
-import: runtime //saving as runtime -------------------|
-import: runtime as 'myModule' //saving as myModule     | 
+import: runtime # saving as runtime -------------------|
+import: runtime as myModule // saving as myModule      | 
 import: runtime, events as 'events_module', request    |
 const var runtime = import: runtime -------------------| (same as)
 

@@ -1,0 +1,5 @@
+# Use wait method for set a timeout, like;
+      
+    Time in Sec
+       |
+wait: 10 and System.Console:Write("I waited 10 seconds")

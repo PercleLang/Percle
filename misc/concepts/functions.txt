@@ -6,7 +6,7 @@ function myFunc () (
 
 ---------------------------------------
 
-# Declare and execute not same time
+# Declare and execute different time
 
 function myFunc () (
     System.Console:Write('Hello World')
