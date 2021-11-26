@@ -1,0 +1,18 @@
+# Using System Math
+
+------------ PI ------------
+
+System.Math.PI # 3.141592653589793238462643
+
+------------ Random ------------
+
+				Base Num.
+				   |  Top
+				   |  |
+System.Math:Random(1, 9) # Will get random number between 1 and 9
+
+------------ Floor ------------
+
+System.Math:Floor(1.5230129038) # 1
+
+------------ ------------
