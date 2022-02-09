@@ -8,16 +8,16 @@ using std::endl;
 using std::string;
 
 struct Flags {
-	bool debug          =   false;
-	bool help           =   false;
-	bool version        =   false;
-	bool runCompiled    =   false;
-	bool runInterpreted =   true;
-	bool flagError      =   false;
+  bool debug           =   false;
+  bool help            =   false;
+  bool version         =   false;
+  bool runCompiled     =   false;
+  bool runInterpreted  =   true;
+  bool flagError       =   false;
 
-	string path;
-	string cppOutFile = "";
-	string binOutFile = "";
+  string path;
+  string cppOutFile = "";
+  string binOutFile = "";
 };
 
 Flags getFlags(int argc, char ** argv);
@@ -31,26 +31,27 @@ int main(int argc, char ** argv) {
     return 0;
   }
 
-  if (flags.help) {
-		cout << "Percle Version: v" << VERSION_X << "." << VERSION_Y << "." << VERSION_Z << endl;
-		cout << "usage: pinecone [options] [source file] [options]" << endl;
-		cout << "options: " << endl;
-		cout << "-v, -version   :  Display the version of Percle" << endl;
-		cout << "-d, -debug     :  Display debugging info before running the program" << endl;
-		cout << "-r, -run          Run the program with the interpreter" << endl;
-		cout << "                  Active by default if no transpiling commands are present" << endl;
-		cout << "               :  Currently, anything after -r is ignored" << endl;
-		cout << "-cpp [file]    :  Transpile to C++ and save the output in the given file" << endl;
-		cout << "-bin [file]    :  Transpile, compile with GCC and save the binary" << endl;
-		cout << "-e, -execute   :  Transpile, compile and execute the binary" << endl;
-		cout << "                    any combination of -cpp, -bin and -e can be used" << endl;
-		cout << "                    like -r, anything after -e is ignored" << endl;
-		cout << "-h, -help      :  Display this help and quit" << endl;
-		cout << endl;
-		cout << endl;
+if (flags.help)
+{
+  cout << "Percle Version: v" << VERSION_X << "." << VERSION_Y << "." << VERSION_Z << endl;
+  cout << "usage: pinecone [options] [source file] [options]" << endl;
+  cout << "options: " << endl;
+  cout << "-v, -version   :  Display the version of Percle" << endl;
+  cout << "-d, -debug     :  Display debugging info before running the program" << endl;
+  cout << "-r, -run          Run the program with the interpreter" << endl;
+  cout << "                  Active by default if no transpiling commands are present" << endl;
+  cout << "               :  Currently, anything after -r is ignored" << endl;
+  cout << "-cpp [file]    :  Transpile to C++ and save the output in the given file" << endl;
+  cout << "-bin [file]    :  Transpile, compile with GCC and save the binary" << endl;
+  cout << "-e, -execute   :  Transpile, compile and execute the binary" << endl;
+  cout << "                    any combination of -cpp, -bin and -e can be used" << endl;
+  cout << "                    like -r, anything after -e is ignored" << endl;
+  cout << "-h, -help      :  Display this help and quit" << endl;
+  cout << endl;
+  cout << endl;
 		
-		return 0;
-	}
+  return 0;
+}
 
   Flags getFlags(int argc, char **argv) {
 	  bool after = false;
